@@ -1,5 +1,6 @@
 package example.com.beijinnews;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.animation.AlphaAnimation;
@@ -9,10 +10,17 @@ import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+
+import example.com.beijinnews.activity.GuideActivity;
+import example.com.beijinnews.activity.MainActivity;
+import example.com.beijinnews.utils.CacheUtils;
 
 public class SplashActivity extends AppCompatActivity {
 
+    /**
+     * 静态常量
+     */
+    public static final String START_MAIN = "start_main";
     private RelativeLayout rl_splash_root;
 
     @Override
@@ -39,7 +47,7 @@ public class SplashActivity extends AppCompatActivity {
         set.addAnimation(sa);
         set.addAnimation(ra);
         //设置持续时间
-        set.setDuration(5000);
+        set.setDuration(3000);
         set.setAnimationListener(new MyAnimationListener());
         rl_splash_root.startAnimation(set);
     }
@@ -48,6 +56,7 @@ public class SplashActivity extends AppCompatActivity {
 
         /**
          * 当动画开启播放的时候回调这个方法
+         *
          * @param animation
          */
         @Override
@@ -57,15 +66,30 @@ public class SplashActivity extends AppCompatActivity {
 
         /**
          * 当动画播放结束的时候 回调这个方法
+         *
          * @param animation
          */
         @Override
         public void onAnimationEnd(Animation animation) {
-            Toast.makeText(SplashActivity.this, "动画播放完成了", Toast.LENGTH_SHORT).show();
+            //判断是否进入过主页面
+            boolean isStartMain = CacheUtils.getBoolean(SplashActivity.this, START_MAIN);
+            Intent intent;
+            if (isStartMain) {
+                //如果进入过主界面，直接进入主界面
+                intent = new Intent(SplashActivity.this, MainActivity.class);
+            } else {
+                //如果没有进入过主界面，进入引导页面
+                intent = new Intent(SplashActivity.this, GuideActivity.class);
+            }
+            startActivity(intent);
+            //关闭SplashActivity界面
+            finish();
+            //Toast.makeText(SplashActivity.this, "动画播放完成了", Toast.LENGTH_SHORT).show();
         }
 
         /**
          * 当动画重复播放的时候 回调这个方法
+         *
          * @param animation
          */
         @Override

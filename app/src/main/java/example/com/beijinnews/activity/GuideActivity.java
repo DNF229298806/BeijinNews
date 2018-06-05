@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import example.com.beijinnews.R;
 import example.com.beijinnews.SplashActivity;
 import example.com.beijinnews.utils.CacheUtils;
+import example.com.beijinnews.utils.DensityUtil;
 
 public class GuideActivity extends AppCompatActivity {
 
@@ -35,6 +36,7 @@ public class GuideActivity extends AppCompatActivity {
      * 两点的间距
      */
     private int leftmax;
+    private int widthdpi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,9 @@ public class GuideActivity extends AppCompatActivity {
                 R.drawable.guide_2,
                 R.drawable.guide_3
         };
+        //进行px和dp的转化
+        widthdpi = DensityUtil.dip2px(this, 10);
+        Log.d(TAG, "widthdpi="+widthdpi+"--------------------------");
         imageViews = new ArrayList<>();
         for (int i = 0; i < ids.length; i++) {
             ImageView imageView = new ImageView(this);
@@ -60,11 +65,14 @@ public class GuideActivity extends AppCompatActivity {
             //创建点
             ImageView point = new ImageView(this);
             point.setBackgroundResource(R.drawable.point_normal);
-            //单位是像素
-            LayoutParams params = new LayoutParams(30, 30);
+            /**
+             * 单位是像素
+             * 把单位当成dp转成对应的像素
+             */
+            LayoutParams params = new LayoutParams(widthdpi, widthdpi);
             if (i != 0) {
                 //不包括第0个，所有的点距离左边有30个像素
-                params.leftMargin = 30;
+                params.leftMargin = widthdpi;
             }
             point.setLayoutParams(params);
             // 添加到线性布局里面

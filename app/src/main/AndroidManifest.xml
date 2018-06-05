@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="example.com.beijinnews">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
+        android:name=".BeijingNewsApplication"
         android:allowBackup="true"
         android:icon="@mipmap/icon_150"
         android:label="@string/app_name"
@@ -18,8 +22,9 @@
         </activity>
         <activity android:name=".activity.GuideActivity">
         </activity>
-        <activity android:name=".activity.MainActivity">
-        </activity>
+        <activity
+            android:name=".activity.MainActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar"/>
     </application>
 
 </manifest>
